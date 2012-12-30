@@ -1,0 +1,45 @@
+README.txt for ObjProcessor
+
+Usage:  ObjProcessor [options] -i input.obj -o output.bobj
+
+Options:
+ -t or --test
+    Runs tests to check code validity (debug use only).
+
+ -p or --path
+    Sets the base path.  All files are loaded relative to
+        this path.  If none is specified, the current
+        directory is used.
+        
+ -i or --input <file.obj>
+    Sets the input file to process, required.
+    
+ -o or --output <file.bobj>
+    Sets the output file, required.
+
+ -q or --force-quads
+    Gives an error if the obj file has polygons with more
+        than 4 points.  Will not write out polygons that
+        fail the test but will still write out the bobj
+        file.
+
+ -f or --force-tris
+    Gives an error if the obj file has polygons with more
+        than 3 points.  Will not write out polygons that
+        fail the test but will still write out the bobj
+        file.
+
+ -r or --report
+    Reports information during processing.
+
+
+Notes:
+
+ObjProcessor isn't very robust when dealing with subdirectories. If
+your obj or mtl has references to files in subdirectories and you're
+getting errors, try these solutions:
+
+1) Make sure path seperators in the obj or mtl file are the same as
+    your platform ('/' for Unix/Mac or '\' for Windows).
+2) Move the file into the same directory as the obj file and
+    change the filename in the obj/mtl files to match.

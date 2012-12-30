@@ -1,0 +1,44 @@
+//
+//  postprocess.c
+//  ObjProcessor
+//
+//  Created by Ian Bullard on 12/30/12.
+//  Copyright (c) 2012 Ian Bullard. All rights reserved.
+//
+
+#include "postprocess.h"
+
+
+typedef struct MemAlloc
+{
+    char* mem;
+    unsigned int top;
+    unsigned int size;
+};
+
+DEFINE_LIST(OpenGL_Mesh, oglmesh_list);
+
+
+
+void create_meshes(ObjFileContents* obj, oglmesh_list** list)
+{
+    
+}
+
+
+void postprocess(ObjFileContents* obj, OpenGL_OBJ** final, int* size)
+{
+    // Create meshes from polygons
+
+    // Create Materials from mats
+    
+    // Convert names to indices
+    
+    // Calculate memory block size
+    
+    // Allocate from memory block
+    
+    // Free temp allocs
+    
+    // Return results
+}

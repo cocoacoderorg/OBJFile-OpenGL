@@ -1,0 +1,90 @@
+//
+//  obj_opengl.h
+//  ObjProcessor
+//
+//  Created by Ian Bullard on 12/29/12.
+//  Copyright (c) 2012 Ian Bullard. All rights reserved.
+//
+
+#ifndef ObjProcessor_obj_opengl_h
+#define ObjProcessor_obj_opengl_h
+
+// Currently all OBJ files are converted into one type of mesh,
+//  regardless of the input data.  All data is loaded into
+//  the tool and could output optimal structures but for now,
+//  this shortcut is being made.
+
+typedef struct
+{
+    float   pos[3];
+    float   tex[2];
+    float   norm[3];
+} ObjFullVert;
+
+typedef struct
+{
+    int material;
+    int numVerts;
+    ObjFullVert* verts;     // not allocated! points to file in memory!
+} OpenGL_Mesh;
+
+#define MAX_TEXTURE_FILENAME 4096
+
+typedef struct
+{
+    char name[MAX_TEXTURE_FILENAME];
+    void* data;
+    int size;
+} OpenGL_TextureFile;
+
+// Limited support for materials.  Specifically:
+//  No texture options, no reflection map
+typedef struct
+{
+    float   ambient[3];
+    float   diffuse[3];
+    float   specular_color[3];
+    float   specular_coeff;
+    float   transparency;
+    int     ambient_texture;
+    int     diffuse_texture;
+    int     specular_color_texture;
+    int     specular_coeff_texture;
+    int     alpha_texture;
+    int     bump_texture;
+    int     displace_texture;
+    int     decal_texture;
+} OpenGL_Material;
+
+typedef struct
+{
+    int numMeshes;
+    int numMaterials;
+    int numTextures;
+    
+    OpenGL_Mesh*        meshes;     // not allocated! points to file in memory!
+    OpenGL_Material*    materials;  // not allocated! points to file in memory!
+    OpenGL_TextureFile* textures;   // not allocated! points to file in memory!
+} OpenGL_OBJ;
+
+
+// Read a file (in memory), process it for queries
+//  mem - Contents of the file in memory
+//  size - Size of the file
+//  obj - structure that will hold the data from the file
+//
+// returns true if successful
+//
+// NOTE: You are NOT responsible for the memory of obj the pointer
+//  to the OpenGL_OBJ as well as the pointers inside are NOT
+//  allocations!  They point to memory inside of the mem you passed
+//  in.  If you free(mem), obj will be invalid!
+bool obj_process(void* mem, size_t size, OpenGL_OBJ** obj);
+
+// start: 3:30pm
+// end: 1am
+// current total: 10h
+
+// start: 11:30am
+
+#endif
