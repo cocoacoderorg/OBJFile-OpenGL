@@ -16,6 +16,7 @@
 #include "filememcache.h"
 #include "stringutil.h"
 #include "obj_contents.h"
+#include "postprocess.h"
 
 // May be called multiple times to parse material files
 void read_file(FileMemCache* fp, ObjFileContents* obj)
@@ -303,6 +304,11 @@ int main(int argc, const char * argv[])
         }
     }
 
+    OpenGL_OBJ* output;
+    int outputSize;
+    
+    postprocess(&obj, &output, &outputSize);
+    
 exit:
     // clean up
     // TODO: free path

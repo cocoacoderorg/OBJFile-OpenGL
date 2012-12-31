@@ -14,6 +14,10 @@
 //  the tool and could output optimal structures but for now,
 //  this shortcut is being made.
 
+// Define an offset pointer.  We do this because pointers can
+//  be 32 or 64 bits and we need to be consistant
+typedef int off_ptr;
+
 typedef struct
 {
     float   pos[3];
@@ -25,7 +29,7 @@ typedef struct
 {
     int material;
     int numVerts;
-    ObjFullVert* verts;     // not allocated! points to file in memory!
+    off_ptr verts;     // ObjFullVert
 } OpenGL_Mesh;
 
 #define MAX_TEXTURE_FILENAME 4096
@@ -33,7 +37,7 @@ typedef struct
 typedef struct
 {
     char name[MAX_TEXTURE_FILENAME];
-    void* data;
+    off_ptr data;
     int size;
 } OpenGL_TextureFile;
 
@@ -62,9 +66,9 @@ typedef struct
     int numMaterials;
     int numTextures;
     
-    OpenGL_Mesh*        meshes;     // not allocated! points to file in memory!
-    OpenGL_Material*    materials;  // not allocated! points to file in memory!
-    OpenGL_TextureFile* textures;   // not allocated! points to file in memory!
+    off_ptr meshes;     // OpenGL_Mesh
+    off_ptr materials;  // OpenGL_Material
+    off_ptr textures;   // OpenGL_TextureFile
 } OpenGL_OBJ;
 
 
@@ -80,11 +84,5 @@ typedef struct
 //  allocations!  They point to memory inside of the mem you passed
 //  in.  If you free(mem), obj will be invalid!
 bool obj_process(void* mem, size_t size, OpenGL_OBJ** obj);
-
-// start: 3:30pm
-// end: 1am
-// current total: 10h
-
-// start: 11:30am
 
 #endif
