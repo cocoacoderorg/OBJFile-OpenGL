@@ -195,8 +195,9 @@ void read_obj_file(char* file, int maxVertCount, ObjFileContents* obj)
 int main(int argc, const char * argv[])
 {
     bool test = true;//false; // TODO - reset to default
-    char* path = "/Volumes/User/Users/ibullard/projects/skywick/ObjProcessor/TestAssets/Obj_jazz";//NULL; // TODO - reset to default
-    char* file = "honda_jazz.obj";//null
+    char* path = "/Volumes/User/Users/ibullard/projects/thirdparty/iphonewavefrontloader/Models";//NULL; // TODO - reset to default
+    char* file = "uvcube2.obj";//NULL;
+    char* output = "uvcube2.bobj"; //NULL;
     int maxVerts = 65536;
     bool report = true;
     
@@ -225,6 +226,14 @@ int main(int argc, const char * argv[])
             ++a;
         }
 
+        if(strcmp(argv[a], "-o") == 0 ||
+           strcmp(argv[a], "--output") == 0)
+        {
+            output = malloc(strlen(argv[a+1])+1);
+            strcpy(output, argv[a]);
+            ++a;
+        }
+        
         if(strcmp(argv[a], "-q") == 0 ||
            strcmp(argv[a], "--force-quads") == 0)
         {
@@ -257,6 +266,12 @@ int main(int argc, const char * argv[])
     if(file == NULL)
     {
         printf("No file, use -f <file> to pass one in");
+        goto exit;
+    }
+    
+    if(output == NULL)
+    {
+        printf("No output, use -o <file> to pass one in");
         goto exit;
     }
     
@@ -304,10 +319,24 @@ int main(int argc, const char * argv[])
         }
     }
 
-    OpenGL_OBJ* output;
+    OpenGL_OBJ* outData;
     int outputSize;
     
-    postprocess(&obj, &output, &outputSize);
+    // finish out the processing
+    postprocess(&obj, &outData, &outputSize);
+    
+    // save the file
+    FILE* fout = fopen(output, "wb");
+    
+    if(fout != NULL)
+    {
+        fwrite(outData, outputSize, 1, fout);
+        fclose(fout);
+    }
+    else
+    {
+        printf("Failed to open output file.\n");
+    }
     
 exit:
     // clean up

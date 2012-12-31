@@ -280,5 +280,6 @@ void postprocess(ObjFileContents* obj, OpenGL_OBJ** final, int* size)
         memcpy(tempPtr, obj->texture.l[i].file, tmpTextures[i].size);
     }
     
+    *size = blk.top;
     *final = result;
 }
