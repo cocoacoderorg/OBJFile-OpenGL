@@ -71,18 +71,4 @@ typedef struct
     off_ptr textures;   // OpenGL_TextureFile
 } OpenGL_OBJ;
 
-
-// Read a file (in memory), process it for queries
-//  mem - Contents of the file in memory
-//  size - Size of the file
-//  obj - structure that will hold the data from the file
-//
-// returns true if successful
-//
-// NOTE: You are NOT responsible for the memory of obj the pointer
-//  to the OpenGL_OBJ as well as the pointers inside are NOT
-//  allocations!  They point to memory inside of the mem you passed
-//  in.  If you free(mem), obj will be invalid!
-bool obj_process(void* mem, size_t size, OpenGL_OBJ** obj);
-
 #endif
