@@ -33,7 +33,10 @@
     
 //    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"uvcube2" ofType:@"bobj"];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"plane3" ofType:@"bobj"];
+//  Matchboxhouse is very, very small.  You need to change the near plane to 0.01, the far plane to 2.0
+//      and the object offset to -0.5
 //    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Matchboxhouse" ofType:@"bobj"];
+    
 
     [EAGLContext setCurrentContext:self.context];
     obj = [[BOBJObject alloc] initWithPath:filePath];
@@ -64,7 +67,7 @@
     
     [EAGLContext setCurrentContext:self.context];
     
-    glClearColor(1.0f, 0.0, 0.0, 1.0);
+    glClearColor(0.0f, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     GLKMatrix4 proj;

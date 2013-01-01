@@ -149,10 +149,15 @@ void check_opengl_error(const char* function, const int line)
         {
             GLKBaseEffect* effect = [[GLKBaseEffect alloc] init];
             
+            printf("Material ambient: (%f, %f, %f)\n", mat[m].ambient[0], mat[m].ambient[1], mat[m].ambient[2]);
+            printf("Material diffuse: (%f, %f, %f)\n", mat[m].diffuse[0], mat[m].diffuse[1], mat[m].diffuse[2]);
+            
             effect.material.ambientColor = GLKVector4Make(mat[m].ambient[0], mat[m].ambient[1], mat[m].ambient[2], 1.0f);
             effect.material.diffuseColor = GLKVector4Make(mat[m].diffuse[0], mat[m].diffuse[1], mat[m].diffuse[2], mat[m].transparency);
             effect.material.specularColor = GLKVector4Make(mat[m].specular_color[0], mat[m].specular_color[1], mat[m].specular_color[2], 1.0f);
             effect.material.shininess =  mat[m].specular_coeff;
+            effect.colorMaterialEnabled = GL_FALSE;
+            effect.useConstantColor = GL_FALSE;
             
             if( mat[m].diffuse_texture >= 0)
             {
@@ -187,17 +192,22 @@ void check_opengl_error(const char* function, const int line)
         modelView = GLKMatrix4Rotate(modelView, currentRotation.y, 0.0f, 1.0f, 0.0f);
         mat.transform.modelviewMatrix = GLKMatrix4Rotate(modelView, currentRotation.z, 0.0f, 0.0f, 1.0f);
         
-        mat.lightingType = GLKLightingTypePerVertex;
+        mat.lightingType = GLKLightingTypePerPixel;
         mat.lightModelAmbientColor = GLKVector4Make(0.0f, 0.0f, 0.0f, 0.0f);
-        mat.colorMaterialEnabled = GL_TRUE;
+        mat.colorMaterialEnabled = NO;
         
         glDisable(GL_CULL_FACE);
+        CHECK_OGL();
 //        glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
+        CHECK_OGL();
         glDepthFunc(GL_LEQUAL);
+        CHECK_OGL();
         
         mat.light0.enabled = GL_TRUE;
         mat.light0.diffuseColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
+//        mat.light0.position = GLKVector4Make(-5.f, -5.f, 10.f, 1.0f);
+        mat.light1.specularColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
         
         [mat prepareToDraw];
         
