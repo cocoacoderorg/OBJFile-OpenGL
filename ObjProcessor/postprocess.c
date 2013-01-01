@@ -82,24 +82,24 @@ void set_vert(ObjFileContents* obj, ObjFullVert* vert, int faceIndex, int vertIn
 {
     init_vert(vert);
     
-    
     // Guaranteed valid face indices for positions (at least for valid files)
     vert->pos[0] = obj->vertex.l[obj->face.l[faceIndex].vert[vertIndex]].v[0];
     vert->pos[1] = obj->vertex.l[obj->face.l[faceIndex].vert[vertIndex]].v[1];
     vert->pos[2] = obj->vertex.l[obj->face.l[faceIndex].vert[vertIndex]].v[2];
-    
+
     if(obj->face.l[faceIndex].normal[vertIndex] >= 0)
     {
-        vert->norm[0] = obj->vertex.l[obj->face.l[faceIndex].normal[vertIndex]].v[0];
-        vert->norm[1] = obj->vertex.l[obj->face.l[faceIndex].normal[vertIndex]].v[1];
-        vert->norm[2] = obj->vertex.l[obj->face.l[faceIndex].normal[vertIndex]].v[2];
+        vert->norm[0] = obj->normal.l[obj->face.l[faceIndex].normal[vertIndex]].v[0];
+        vert->norm[1] = obj->normal.l[obj->face.l[faceIndex].normal[vertIndex]].v[1];
+        vert->norm[2] = obj->normal.l[obj->face.l[faceIndex].normal[vertIndex]].v[2];
     }
     
     if(obj->face.l[faceIndex].texcoord[vertIndex] >= 0)
     {
-        vert->tex[0] = obj->vertex.l[obj->face.l[faceIndex].texcoord[vertIndex]].v[0];
-        vert->tex[1] = obj->vertex.l[obj->face.l[faceIndex].texcoord[vertIndex]].v[1];
+        vert->tex[0] = obj->texture_coord.l[obj->face.l[faceIndex].texcoord[vertIndex]].v[0];
+        vert->tex[1] = obj->texture_coord.l[obj->face.l[faceIndex].texcoord[vertIndex]].v[1];
     }
+    
 }
 
 void create_mesh(int i, ObjFileContents* obj, oglvert_list* list)

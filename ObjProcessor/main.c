@@ -196,8 +196,12 @@ int main(int argc, const char * argv[])
 {
     bool test = true;//false; // TODO - reset to default
     char* path = "/Volumes/User/Users/ibullard/projects/thirdparty/OBJFile-OpenGL/OpenGL BOBJ Viewer/Models";//NULL; // TODO - reset to default
-    char* file = "plane3.obj";//NULL;
-    char* output = "plane3.bobj"; //NULL;
+//    char* file = "uvcube2.obj";//NULL;
+//    char* output = "uvcube2.bobj"; //NULL;
+//    char* file = "plane3.obj";//NULL;
+//    char* output = "plane3.bobj"; //NULL;
+    char* file = "Matchboxhouse.obj";//NULL;
+    char* output = "Matchboxhouse.bobj"; //NULL;
     int maxVerts = 65536;
     bool report = true;
     

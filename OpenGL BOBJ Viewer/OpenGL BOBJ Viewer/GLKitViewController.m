@@ -28,9 +28,12 @@
     }
     
     GLKView *view = (GLKView *)self.view;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     view.context = self.context;
     
+//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"uvcube2" ofType:@"bobj"];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"plane3" ofType:@"bobj"];
+//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Matchboxhouse" ofType:@"bobj"];
 
     [EAGLContext setCurrentContext:self.context];
     obj = [[BOBJObject alloc] initWithPath:filePath];
@@ -62,12 +65,12 @@
     [EAGLContext setCurrentContext:self.context];
     
     glClearColor(1.0f, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     GLKMatrix4 proj;
     
     proj = GLKMatrix4MakePerspective(90, self.view.bounds.size.width/self.view.bounds.size.height, 0.1f, 1000.0f);
-    obj.currentPosition = GLKVector3Make(0, 0, -5);
+    obj.currentPosition = GLKVector3Make(0, 0, -3);
     
     curRot.y += 0.1f;
     

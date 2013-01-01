@@ -23,8 +23,8 @@
 		11C7F5B11691E339009FE9BE /* BOBJObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 11C7F5B01691E339009FE9BE /* BOBJObject.m */; };
 		11C7F5B71691EC6F009FE9BE /* uvcube2.bobj in Resources */ = {isa = PBXBuildFile; fileRef = 11C7F5B61691EBFC009FE9BE /* uvcube2.bobj */; };
 		11C7F5B81691EC71009FE9BE /* plane3.bobj in Resources */ = {isa = PBXBuildFile; fileRef = 11C7F5B51691EBFC009FE9BE /* plane3.bobj */; };
-		11C7F5B91691EC74009FE9BE /* earth.bobj in Resources */ = {isa = PBXBuildFile; fileRef = 11C7F5B41691EBFC009FE9BE /* earth.bobj */; };
 		11C7F5BB1691F1B0009FE9BE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11C7F5BA1691F1AF009FE9BE /* OpenGLES.framework */; };
+		11C7F5C21692AEAB009FE9BE /* Matchboxhouse.bobj in Resources */ = {isa = PBXBuildFile; fileRef = 11C7F5C11692AE41009FE9BE /* Matchboxhouse.bobj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,10 +49,10 @@
 		11C7F5AF1691E339009FE9BE /* BOBJObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOBJObject.h; sourceTree = "<group>"; };
 		11C7F5B01691E339009FE9BE /* BOBJObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOBJObject.m; sourceTree = "<group>"; };
 		11C7F5B21691E461009FE9BE /* obj_opengl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = obj_opengl.h; path = ../../ObjProcessor/obj_opengl.h; sourceTree = "<group>"; };
-		11C7F5B41691EBFC009FE9BE /* earth.bobj */ = {isa = PBXFileReference; lastKnownFileType = file; name = earth.bobj; path = Models/earth.bobj; sourceTree = "<group>"; };
 		11C7F5B51691EBFC009FE9BE /* plane3.bobj */ = {isa = PBXFileReference; lastKnownFileType = file; name = plane3.bobj; path = Models/plane3.bobj; sourceTree = "<group>"; };
 		11C7F5B61691EBFC009FE9BE /* uvcube2.bobj */ = {isa = PBXFileReference; lastKnownFileType = file; name = uvcube2.bobj; path = Models/uvcube2.bobj; sourceTree = "<group>"; };
 		11C7F5BA1691F1AF009FE9BE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		11C7F5C11692AE41009FE9BE /* Matchboxhouse.bobj */ = {isa = PBXFileReference; lastKnownFileType = file; name = Matchboxhouse.bobj; path = Models/Matchboxhouse.bobj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,9 +136,9 @@
 		11C7F5B31691EBC8009FE9BE /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				11C7F5B41691EBFC009FE9BE /* earth.bobj */,
 				11C7F5B51691EBFC009FE9BE /* plane3.bobj */,
 				11C7F5B61691EBFC009FE9BE /* uvcube2.bobj */,
+				11C7F5C11692AE41009FE9BE /* Matchboxhouse.bobj */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -202,7 +202,7 @@
 				11C7F5AE1691DDB0009FE9BE /* MainStoryboard_iPhone.storyboard in Resources */,
 				11C7F5B71691EC6F009FE9BE /* uvcube2.bobj in Resources */,
 				11C7F5B81691EC71009FE9BE /* plane3.bobj in Resources */,
-				11C7F5B91691EC74009FE9BE /* earth.bobj in Resources */,
+				11C7F5C21692AEAB009FE9BE /* Matchboxhouse.bobj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

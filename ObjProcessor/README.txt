@@ -65,3 +65,10 @@ with pvr4 files and there's no documentation online that explains why.  So
 I don't recommend using that file format.  TGA files have been tested and
 are verified to work.  Other file formats (PNG, BMP, etc) should also work
 but aren't verified).
+
+-- Backface Culling
+
+There isn't a defined vertex order for OBJ files, in fact files can have mixed
+winding order polygons.  The tool currently doesn't fix this so to properly 
+draw objects output from this tool you need to turn backface culling off. The
+example viewer does this in [BOBJObject drawSelf].

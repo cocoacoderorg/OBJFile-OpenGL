@@ -121,10 +121,19 @@ void check_opengl_error(const char* function, const int line)
         for(int t = 0; t < obj->numTextures; ++t)
         {
             void* texPtr = (void*)(start + tex[t].data);
-            NSData* texData = [NSData dataWithBytesNoCopy:texPtr length:tex[t].size];
+            NSData* texData = [NSData dataWithBytesNoCopy:texPtr length:tex[t].size freeWhenDone:NO];
             NSError *error;
+            // This check is here to make sure the OGL errors are cleared because if an OGL error has occured
+            //  before [GLKTextureLoader textureWithContentsOfData], it will fail even if it didn't cause the
+            //  error.
             CHECK_OGL();
-            GLKTextureInfo* newTex = [GLKTextureLoader textureWithContentsOfData:texData options:nil error:&error];
+            NSDictionary* opt = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:YES], GLKTextureLoaderOriginBottomLeft,
+                                 [NSNumber numberWithBool:NO], GLKTextureLoaderGrayscaleAsAlpha,
+                                 [NSNumber numberWithBool:YES], GLKTextureLoaderApplyPremultiplication,
+                                 [NSNumber numberWithBool:NO], GLKTextureLoaderGenerateMipmaps, nil];
+            
+            GLKTextureInfo* newTex = [GLKTextureLoader textureWithContentsOfData:texData options:opt error:&error];
             
             if(error)
             {
@@ -151,7 +160,7 @@ void check_opengl_error(const char* function, const int line)
                 
                 tex = [textures objectAtIndex:mat[m].diffuse_texture];
             
-                effect.texture2d0.envMode = GLKTextureEnvModeReplace;
+                effect.texture2d0.envMode = GLKTextureEnvModeModulate;
                 effect.texture2d0.target = GLKTextureTarget2D;
                 effect.texture2d0.name = tex.name;
                 effect.texture2d0.enabled = TRUE;
@@ -177,6 +186,18 @@ void check_opengl_error(const char* function, const int line)
         modelView = GLKMatrix4Rotate(modelView, currentRotation.x, 1.0f, 0.0f, 0.0f);
         modelView = GLKMatrix4Rotate(modelView, currentRotation.y, 0.0f, 1.0f, 0.0f);
         mat.transform.modelviewMatrix = GLKMatrix4Rotate(modelView, currentRotation.z, 0.0f, 0.0f, 1.0f);
+        
+        mat.lightingType = GLKLightingTypePerVertex;
+        mat.lightModelAmbientColor = GLKVector4Make(0.0f, 0.0f, 0.0f, 0.0f);
+        mat.colorMaterialEnabled = GL_TRUE;
+        
+        glDisable(GL_CULL_FACE);
+//        glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        
+        mat.light0.enabled = GL_TRUE;
+        mat.light0.diffuseColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
         
         [mat prepareToDraw];
         
