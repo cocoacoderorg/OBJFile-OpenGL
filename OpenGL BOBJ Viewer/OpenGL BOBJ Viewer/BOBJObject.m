@@ -10,6 +10,40 @@
 #import "obj_opengl.h"
 #import <GLKit/GLKit.h>
 
+void check_opengl_error(const char* function, const int line)
+{
+	GLenum err = glGetError();
+	
+	switch (err)
+	{
+		case GL_NO_ERROR:
+			break;
+		case GL_INVALID_ENUM:
+            NSLog(@"GL_INVALID_ENUM - %s, %d", function, line);
+			break;
+		case GL_INVALID_VALUE:
+            NSLog(@"GL_INVALID_VALUE - %s, %d", function, line);
+			break;
+		case GL_INVALID_OPERATION:
+            NSLog(@"GL_INVALID_OPERATION - %s, %d", function, line);
+			break;
+		case GL_STACK_OVERFLOW:
+            NSLog(@"GL_STACK_OVERFLOW - %s, %d", function, line);
+			break;
+		case GL_STACK_UNDERFLOW:
+            NSLog(@"GL_STACK_UNDERFLOW - %s, %d", function, line);
+			break;
+		case GL_OUT_OF_MEMORY:
+            NSLog(@"GL_OUT_OF_MEMORY - %s, %d", function, line);
+			break;
+		default:
+            NSLog(@"Unknown Error - %s, %d", function, line);
+			break;
+	}
+}
+
+#define CHECK_OGL() check_opengl_error(__FUNCTION__, __LINE__)
+
 @implementation BOBJObject
 
 @synthesize currentPosition;
@@ -28,6 +62,9 @@
             return nil;
         }
         
+        materials = [[NSMutableArray alloc] init];
+        textures = [[NSMutableArray alloc] init];
+        
         OpenGL_OBJ* obj = (OpenGL_OBJ*)[data bytes];
         
         // create vertex buffers
@@ -39,7 +76,9 @@
         char* start = (char*)obj;
         
         glGenVertexArraysOES(numMesh, vertArray);
+        CHECK_OGL();
         glGenBuffers(numMesh, vertBuffer);
+        CHECK_OGL();
         
         OpenGL_Mesh* mesh = (OpenGL_Mesh*)(start + obj->meshes);
         
@@ -49,22 +88,32 @@
             ObjFullVert* verts = (ObjFullVert*)(start + mesh[v].verts);
             
             glBindVertexArrayOES(vertArray[v]);
+            CHECK_OGL();
             glBindBuffer(GL_ARRAY_BUFFER, vertBuffer[v]);
+            CHECK_OGL();
             vertCount[v] = mesh[v].numVerts;
             materialIndex[v] = mesh[v].material;
             
             glBufferData(GL_ARRAY_BUFFER, mesh[v].numVerts * sizeof(ObjFullVert), (void*)verts, GL_STATIC_DRAW);
+            CHECK_OGL();
             
             glEnableVertexAttribArray(GLKVertexAttribPosition);
+            CHECK_OGL();
             glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(ObjFullVert), 0);
+            CHECK_OGL();
             
             glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+            CHECK_OGL();
             glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(ObjFullVert), (void*)(3*sizeof(float)));
+            CHECK_OGL();
             
             glEnableVertexAttribArray(GLKVertexAttribNormal);
+            CHECK_OGL();
             glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(ObjFullVert), (void*)(5*sizeof(float)));
+            CHECK_OGL();
             
             glBindVertexArrayOES(0);
+            CHECK_OGL();
         }
         
         // Create textures
@@ -74,6 +123,7 @@
             void* texPtr = (void*)(start + tex[t].data);
             NSData* texData = [NSData dataWithBytesNoCopy:texPtr length:tex[t].size];
             NSError *error;
+            CHECK_OGL();
             GLKTextureInfo* newTex = [GLKTextureLoader textureWithContentsOfData:texData options:nil error:&error];
             
             if(error)
@@ -86,7 +136,7 @@
         
         // store materials
         OpenGL_Material* mat = (OpenGL_Material*)(start + obj->materials);
-        for(int m = 0; m < obj->numMeshes; ++m)
+        for(int m = 0; m < obj->numMaterials; ++m)
         {
             GLKBaseEffect* effect = [[GLKBaseEffect alloc] init];
             
@@ -116,36 +166,28 @@
 
 - (void)drawSelf:(GLKMatrix4)projection
 {
-	// Save the current transformation by pushing it on the stack
-	glPushMatrix();
-	
-	// Load the identity matrix to restore to origin
-	glLoadIdentity();
-	
-	// Translate to the current position
-	glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
-	
-	// Rotate to the current rotation
-	glRotatef(currentRotation.x, 1.0, 0.0, 0.0);
-	glRotatef(currentRotation.y, 0.0, 1.0, 0.0);
-	glRotatef(currentPosition.z, 0.0, 0.0, 1.0);
-	
 	// Enable and load the vertex array
     for(int v = 0; v < numMesh; ++v)
     {
-        GLKBaseEffect* mat = [materials objectAtIndex:v];
+        GLKBaseEffect* mat = [materials objectAtIndex:materialIndex[v]];
         
         mat.transform.projectionMatrix = projection;
+        
+        GLKMatrix4 modelView = GLKMatrix4MakeTranslation(currentPosition.x, currentPosition.y, currentPosition.z);
+        modelView = GLKMatrix4Rotate(modelView, currentRotation.x, 1.0f, 0.0f, 0.0f);
+        modelView = GLKMatrix4Rotate(modelView, currentRotation.y, 0.0f, 1.0f, 0.0f);
+        mat.transform.modelviewMatrix = GLKMatrix4Rotate(modelView, currentRotation.z, 0.0f, 0.0f, 1.0f);
         
         [mat prepareToDraw];
         
 		// Set color and materials based on group's material
         glBindVertexArrayOES(vertArray[v]);
-        glDrawArrays(GL_TRIANGLES, 0, vertCount[v]/3);
+        CHECK_OGL();
+        glDrawArrays(GL_TRIANGLES, 0, vertCount[v]);
+        CHECK_OGL();
     }
     
 	// Restore the current transformation by popping it off
-	glPopMatrix();
 }
 
 - (void)dealloc

@@ -195,9 +195,9 @@ void read_obj_file(char* file, int maxVertCount, ObjFileContents* obj)
 int main(int argc, const char * argv[])
 {
     bool test = true;//false; // TODO - reset to default
-    char* path = "/Volumes/User/Users/ibullard/projects/thirdparty/iphonewavefrontloader/Models";//NULL; // TODO - reset to default
-    char* file = "uvcube2.obj";//NULL;
-    char* output = "uvcube2.bobj"; //NULL;
+    char* path = "/Volumes/User/Users/ibullard/projects/thirdparty/OBJFile-OpenGL/OpenGL BOBJ Viewer/Models";//NULL; // TODO - reset to default
+    char* file = "plane3.obj";//NULL;
+    char* output = "plane3.bobj"; //NULL;
     int maxVerts = 65536;
     bool report = true;
     

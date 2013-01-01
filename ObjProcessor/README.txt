@@ -57,3 +57,11 @@ some assumptions about the polygons:
 
 If you have an obj file that has polygons that don't satisfy these two
 conditions, you'll need to use a 3D editor to fix them.
+
+-- Texture Formats
+
+I haven't gotten [GLKTextureLoader textureWithContentsOfData:texture] to work
+with pvr4 files and there's no documentation online that explains why.  So
+I don't recommend using that file format.  TGA files have been tested and
+are verified to work.  Other file formats (PNG, BMP, etc) should also work
+but aren't verified).

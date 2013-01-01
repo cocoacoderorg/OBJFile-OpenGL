@@ -31,7 +31,13 @@
     view.context = self.context;
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"plane3" ofType:@"bobj"];
+
+    [EAGLContext setCurrentContext:self.context];
     obj = [[BOBJObject alloc] initWithPath:filePath];
+    
+    curRot = GLKVector3Make(0.0f, 0.0f, 0.0f);
+    
+    readToDraw = true;
 }
 
 - (void)viewDidUnload
@@ -47,6 +53,13 @@
 #pragma mark - GLKViewDelegate
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
+
+    if(!readToDraw)
+    {
+        return;
+    }
+    
+    [EAGLContext setCurrentContext:self.context];
     
     glClearColor(1.0f, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -54,7 +67,11 @@
     GLKMatrix4 proj;
     
     proj = GLKMatrix4MakePerspective(90, self.view.bounds.size.width/self.view.bounds.size.height, 0.1f, 1000.0f);
-    obj.currentPosition = GLKVector3Make(0, 0, -10);
+    obj.currentPosition = GLKVector3Make(0, 0, -5);
+    
+    curRot.y += 0.1f;
+    
+    obj.currentRotation = curRot;
     
     [obj drawSelf:proj];
 }

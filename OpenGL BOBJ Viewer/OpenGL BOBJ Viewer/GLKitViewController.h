@@ -12,5 +12,9 @@
 
 @interface GLKitViewController : GLKViewController {
     BOBJObject* obj;
+    
+    GLKVector3 curRot;
+    
+    bool readToDraw;
 }
 @end

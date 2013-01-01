@@ -47,7 +47,7 @@ int find_material(ObjFileContents* obj, char* name)
             return i;
         }
     }
-    return 0;
+    return -1;
 }
 
 int find_texture(ObjFileContents* obj, char* name)
@@ -59,7 +59,7 @@ int find_texture(ObjFileContents* obj, char* name)
             return i;
         }
     }
-    return 0;
+    return -1;
 }
 
 DEFINE_LIST(ObjFullVert, oglvert_list);
@@ -81,6 +81,7 @@ void init_vert(ObjFullVert* v)
 void set_vert(ObjFileContents* obj, ObjFullVert* vert, int faceIndex, int vertIndex)
 {
     init_vert(vert);
+    
     
     // Guaranteed valid face indices for positions (at least for valid files)
     vert->pos[0] = obj->vertex.l[obj->face.l[faceIndex].vert[vertIndex]].v[0];

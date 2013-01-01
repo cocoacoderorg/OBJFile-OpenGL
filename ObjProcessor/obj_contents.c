@@ -251,7 +251,7 @@ void EmitFace(ObjFileContents* file, int line_num, char* line)
     int vert_count = 0;
     for(int i = 0; i < MAX_FACE_VERTS; ++i)
     {
-        if( f.vert < 0 )
+        if( f.vert[i] < 0 )
             break;
         vert_count++;
     }

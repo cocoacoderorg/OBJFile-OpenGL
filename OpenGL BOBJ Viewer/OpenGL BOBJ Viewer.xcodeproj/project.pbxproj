@@ -327,6 +327,7 @@
 				11C7F5A31691D972009FE9BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

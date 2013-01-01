@@ -230,17 +230,17 @@ FaceType parse_face(char* line)
                 
                 if(state == 0)
                 {
-                    result.vert[index] = atoi(start);
+                    result.vert[index] = atoi(start) - 1;
                 }
                 else if(state == 1)
                 {
                     // texture coord may be nothing (v1//n1)
                     if(start != set)
-                        result.texcoord[index] = atoi(start);
+                        result.texcoord[index] = atoi(start) - 1;
                 }
                 else if(state == 2)
                 {
-                    result.normal[index] = atoi(start);
+                    result.normal[index] = atoi(start) - 1;
                 }
                 state++;
                 start = set + 1;
